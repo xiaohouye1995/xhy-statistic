@@ -31,7 +31,7 @@ export class WonderStatistic {
     this.getPageSource()
     this.getPageBack()
     this.getPageTime()
-    this.getPageOut()
+    options.isGeo ? this.getLocation() : this.getPageOut()
   }
   // 监听路由初始化
   routerInit() {
@@ -52,6 +52,22 @@ export class WonderStatistic {
       }
     }
     window.history.pushState = rewriteHis('pushState')
+  }
+  // 用户登录
+  login(id, name) {
+    this._options.userId = id
+    this._options.userName = name
+    localStorage.setItem('xhyStatisticUserId', id)
+    localStorage.setItem('xhyStatisticUserName', name)
+    this.send({ ...this._options, eventType: 'loginSuccess' })
+  }
+  // 用户退出登录
+  logOut() {
+    this._options.userId = null
+    this._options.userName = null
+    localStorage.setItem('xhyStatisticUserId', null)
+    localStorage.setItem('xhyStatisticUserName', null)
+    this.send({ ...this._options, eventType: 'logOutSuccess' })
   }
   // 获取页面来源
   getPageSource() {
@@ -139,6 +155,29 @@ export class WonderStatistic {
       window.addEventListener('pushstate', () => {
         setStayTimeEvent('pushstate')
       })
+    }
+  }
+
+  // 获取定位信息
+  getLocation() {
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', 'https://get.geojs.io/v1/ip/geo.json')
+    xhr.send(null)
+    xhr.onload = () => {
+      if (xhr.status !== 200) {
+        this.send({ ...this._options, eventType: 'pv' })
+        return
+      }
+      const location = JSON.parse(xhr.responseText)
+      this._options.region = location.region
+      this._options.city = location.city
+      this._options.ipAddress = location.ip
+      this.send({ ...this._options, eventType: 'pv' })
+      this.getPageOut()
+    }
+    xhr.onerror = () => {
+      this.send({ ...this._options, eventType: 'pv' })
+      this.getPageOut()
     }
   }
 

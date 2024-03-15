@@ -1,6 +1,6 @@
 {
   "name": "xhy-statistic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "小侯爷的埋点统计库",
   "main": "index.js",
   "scripts": {

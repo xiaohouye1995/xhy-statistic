@@ -18,6 +18,7 @@ window.xhyWebtracing = new XhyStatistic()
 window.xhyWebtracing.init({
   requestUrl: 'http://xxxx/tracing', // 请求路径
   appName: 'xxx', // 应用名
+  isGeo: false, // 是否开启geojs定位服务
   eventCenter: eventCenter, // taro监听事件，可选
   appType: 'taro', // 应用类型，可选
 })
@@ -28,6 +29,20 @@ window.xhyWebtracing.init({
  * @param optionsObj 事件参数
  */
 window.xhyWebtracing.event(name, optionsObj)
+
+
+/**
+ * 用户登录
+ * @param id 用户id
+ * @param name 用户名称
+ */
+window.xhyWebtracing.login(id, name)
+
+/**
+ * 用户退出登录
+ */
+window.xhyWebtracing.logOut()
+
 ```
 
 ### 参数
@@ -41,12 +56,14 @@ window.xhyWebtracing.event(name, optionsObj)
   "supporter": "", // 浏览器
   "system": "", // 系统
   "systemVs":" ", // 系统版本
+  "ipAddress": "", // ip地址
   "region":" ", // 省份
   "city": "" ,// 城市
   "eventInfo": {}, // 自定义事件对象
   "pageTimeSrc": "", // 停留页面
   "pageTime": "", // 停留时间
   "eventType":"", // 事件名 pv：页面访问量，loginSuccess：登录成功，pageBack：返回上一级，pageOut：登出
-  "userId": "" // 登录用户id
+  "userId": "", // 登录用户id
+  "userName": "" // 登录用户名
 }
 ```
