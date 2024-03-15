@@ -1,4 +1,4 @@
-export class WonderStatistic {
+export class XhyStatistic {
   constructor() {
     const id = localStorage.getItem('xhyStatisticBrowserId')
     if (id) {
